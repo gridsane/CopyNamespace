@@ -9,7 +9,6 @@ class CopyPhpSniffer:
     def find(self, expression):
         expression = '(?<=' + expression + '\s)([a-z]|\\\\)*'
         region = self.view.find(expression, 0, sublime.IGNORECASE)
-        print(region, expression)
         if region is not None and region.empty() is False:
             result = self.view.substr(region)
             if result is not False:
@@ -40,12 +39,11 @@ class CopyClassnameCommand(sublime_plugin.WindowCommand):
             if namespace is not False:
                 prefix = namespace + '\\'
 
-        for option in ['^abstract\sclass', '^class', '^final\sclass' '^interface', '^trait']:
+        for option in ['^abstract\sclass', '^class', '^final\sclass', '^interface', '^trait']:
             result = sniffer.find(option)
-            print(result)
             if result is not False:
                 sublime.set_clipboard(prefix + result)
-                sublime.status_message('Copied ' + option + ': ' + prefix + result)
+                sublime.status_message('Copied: ' + prefix + result)
                 break
 
         if result is False:
